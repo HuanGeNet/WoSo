@@ -1,0 +1,197 @@
+﻿<!DOCTYPE html>
+<html>
+   <head>
+      <title>WoSo</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="keywords" content="WoSo，聚合搜索引擎，多搜索引擎，快速搜索" />
+      <meta name="description" content="聚合多种领域搜索引擎，大大提高搜索效率，使搜索更简单。"/>
+	  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+      <!-- 引入 Bootstrap -->
+      <link href="./css/bootstrap.min.css" rel="stylesheet">
+ 
+      <!-- HTML5 Shim 和 Respond.js 用于让 IE8 支持 HTML5元素和媒体查询 -->
+      <!-- 注意： 如果通过 file://  引入 Respond.js 文件，则该文件无法起效果 -->
+      <!--[if lt IE 9]>
+         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+         <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+      <![endif]-->
+   </head>
+   <body>
+      
+	   <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="position:relative;">
+           <div class="container-fluid">
+              <div class="navbar-header" >
+                 <a class="navbar-brand" href="/" >WoSo</a> 
+		         <a class="navbar-brand" href="http://hgnet.xyz/" target="_blank" >欢哥网</a> 
+              </div>
+            </div>
+      </nav>
+
+	  <div class="container" style="margin-top:50px;">
+	      
+		  <div class="row">
+            <div class="col-md-3 col-md-offset-4 col-xs-9 col-xs-offset-3">
+			      <h2>Just so it !</h2>
+			</div>
+          </div>
+          <div class="row" style="margin-top:10px;">
+            <div class="col-lg-offset-3 col-lg-5 col-md-offset-1 col-md-9 col-xs-offset-1 col-xs-10">
+			       <div class="form-group">
+		             <input type="text" class="form-control" id="urlname" value="" placeholder="请输入要搜索的关键词，默认百度搜索"/>
+					 <input type="hidden" id="sval" value="1" />
+	               </div>
+			</div>
+         </div>
+		   <div class="row" style="margin-top:10px;">
+		      <div class="col-lg-offset-3 col-lg-2 col-md-offset-1  col-md-3 col-xs-offset-1 col-xs-4">
+				 <div>   
+				 <select onchange="getChange(this)" style="padding: 6px 12px;font-size: 14px;text-align: center;white-space: nowrap;border-radius: 4px;">
+				       <option value ="0">搜索分类</option>
+					   <option value ="1">国内搜索</option>
+					   <option value ="2">国际搜索</option>
+					   <option value ="3">谷歌替代</option>
+					   <option value ="4">隐私保护</option>
+                       <option value ="5">影视搜索</option>
+					   <option value ="6">网盘搜索</option>
+                       <option value ="7">BT搜索</option>
+                       <option value="8">搜电子书</option>
+                       <option value="9">图搜</option>
+					   <option value="10">数据搜索</option>
+					   <option value="11">学术搜索</option>
+                 </select> 
+				 </div>
+			</div> 
+			 <div class="col-lg-2 col-md-4  col-xs-4">
+			       <div>
+					   <select id="catlists" onchange="SecondChange(this)" style="padding: 6px 12px;font-size: 14px;text-align: center;white-space: nowrap;border-radius: 4px;">
+                          <option value ="https://www.baidu.com/s?wd=">分类列表</option>
+                          <option value ="https://www.baidu.com/s?wd=" title="百度">百度</option>
+						  <option value="https://www.sogou.com/web?query=" title="搜狗">搜狗</option>
+						  <option value="https://www.so.com/s?q=" title="好搜">360</option>
+                       </select>
+                 </div>
+			</div> 
+			 <div class="col-lg-2 col-md-3 col-xs-2">
+			      <button type="button" class="btn btn-primary" id="myButton4" data-complete-text="Loading finished">搜索！
+                  </button>
+			</div>
+		  </div>
+      </div>
+ 
+      <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+      <script src="./js/jquery.js"></script>
+      <!-- 包括所有已编译的插件 -->
+      <script src="./js/bootstrap.min.js"></script>
+      <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?19443389d476e2969b2406f05c03863b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<script>
+function getChange(obj) {
+   var val,urlData;
+   val = obj.options[obj.selectedIndex].value;
+   if(val == 0) val = 1;
+   urlData = [['https://www.baidu.com/s?wd=','https://www.sogou.com/web?query=','https://www.so.com/s?q=','https://zhihu.sogou.com/zhihu?query=','https://weixin.sogou.com/weixin?type=2&query=','https://s.weibo.com/weibo?q='],
+              ['https://www.google.com/search?q=','https://www2.bing.com/search?q=','https://www.ecosia.org/search?q=','https://www.qwant.com/?q=','https://yandex.com/search/?text='],
+              ['https://www.search.com/web?q=','https://busca.uol.com.br/result.html?term=','https://search.mysearch.com/web?q=','https://suche.gmx.net/web/result?q=','https://tinygoo.herokuapp.com/query/?q=','http://googlebridge.com/search?q=','http://126kr.com/search?q='],
+			  ['https://duckduckgo.com/?q=','https://www.hotbot.com/web?q='],
+			  ['http://ifkdy.com/?q=','http://www.ttmeiju.vip/index.php/search/index.html?keyword=','http://www.acgsou.com/?keyword=', 'http://www.slimego.cn/search.html?q=','http://www.rs05.com/search.php?s=','https://neets.cc/search?key=', 'http://www.dmhy.org/topics/list?keyword='],
+			  ['http://www.pansoso.com/zh/','https://www.quzhuanpan.com/source/search.action?q=','http://www.daysou.com/s?q=','http://www.panduoduo.net/s/name/','http://www.xilinjie.com/s?q=','https://www.panc.cc/s/'],
+			  ['https://www.cilimao.cc/search?word=','http://pianyuan.net/search?q=','http://www.runbt.in/list/'],
+			  ['http://mebook.cc/?s=','https://www.jiumodiary.com?q=','https://bookset.me/search/','https://www.google.com/search?tbm=bks&q=','http://www.zxcs.me/index.php?keyword=','http://www.soduso.com/search/index.aspx?key='],
+			  ['https://www.google.com/search?newwindow=1&tbm=isch&source=hp&biw=1366&bih=657&ei=KWhRXLGVKsb0swXmpJCAAg&q=','https://image.baidu.com','https://visualhunt.com/search/instant/?q=','http://588ku.com/','https://www.iconfont.cn/search/index?searchType=icon&q=',
+			  'https://pixabay.com/zh/photos/','https://cn.freeimages.com/search/'],
+			  ['https://trends.google.com/trends/explore?q=','http://index.baidu.com/v2/main/index.html#/trend/nginx?words=','http://zhishu.sogou.com/index/searchHeat?timePeriodType=MONTH&dataType=SEARCH_ALL&queryType=INPUT&kwdNamesStr=','http://index.1688.com/','http://mi.talkingdata.com/search.html?keyword=',
+			  'http://www.cbooo.cn/','http://index.bitauto.com','http://www.cfh.ac.cn/Spdb/spsearch.aspx/'],
+			  ['https://scholar.google.com.hk/scholar?hl=zh-CN&q=','http://xueshu.baidu.com/s?wd=','https://cn.bing.com/academic/search?q=','http://www.oalib.com/search?kw=nginx','http://pubmed.cn/search?q=','https://www.aminer.cn/search?t=b&q=','http://find.nlc.cn/search/doSearch?query=','http://scholar.cnki.net/result.aspx?q=',
+			  'http://trend.cnki.net/TrendSearch/trendshow.htm?searchword=','https://www.base-search.net/Search/Results?lookfor=','https://www.wdl.org/zh/search/?q=','http://www.letpub.com.cn/index.php?page=journalapp&view=search&searchsort=relevance&searchname=','https://www.sciencedirect.com/search?qs=',
+			  'http://en.whu.findplus.cn/?h=search_list&query=','http://search.mit.edu/search?q=','http://en.shl.findplus.cn/?h=search_list&query=','http://www.sciinfo.cn/Result.aspx?c=1&q=','https://www.repository.cam.ac.uk/discover?scope=%2F&query=']
+			 ];
+   nameData = [['百度搜索','搜狗搜索','好搜','知乎搜索','微信搜索','微博搜索'],
+         ['谷歌搜索','必应搜索','Ecosia','Qwant','Yandex'],
+        ['Search','UOL bu..','MySear..','GMX','Tiny Go..','GoogleB..','BirdSo'],
+		['Duck..','Hotbot','Startpage'],
+		['疯狂影视','天天美剧','ACG搜','史莱姆','人生05','Neet追剧','动漫花园'],
+		['盘搜搜','去转盘','天天搜索','盘多多','西林街','胖次'],
+		['磁力猫','片源网','RUNBT'],
+		['MeBook','鸠摩搜书','BookSet','Google','知轩藏书','SoDu'],
+		['谷歌图片','百度图片','Visual...','千库网','iconfont','Pixabay','FreeImg'],
+		['谷歌指数','百度指数','搜狗指数','阿里指数','移动观象','中国票房','汽车指数','物种搜索'],
+		['谷歌学术','百度学术','必应学术','OALib','PubMed','AMiner','文津搜索','CNKI学术','学术趋势','比勒费尔德','世界数字..','Letpub','Science..','珞珈学术','麻省理工','上图发现','中国学术','剑桥大学']
+   ];
+   completeName = [['百度搜索','搜狗搜索','好搜','知乎搜索','微信搜索','微博搜索'],
+         ['谷歌搜索','必应搜索','Ecsoia 德国一款搜索引擎','Qwant 法国的一款搜索引擎','Yandex 俄罗斯的一款搜索引擎'],
+        ['Search','UOL busca','MySearch','GMX','Tiny Google','GoogleBridge','BirdSo'],
+		['Duckduckgo','Hotbot','Startpage'],
+		['疯狂影视','天天美剧','ACG搜','史莱姆','人生05','Neets追剧','动漫花园'],
+		['盘搜搜','去转盘','天天搜索','盘多多','西林街','胖次'],
+		['磁力猫','片源网','runbt'],
+		['我的小书屋','鸠摩搜书','BookSet','Google图书','小说搜索','小说搜索'],
+		['谷歌图片','百度图片','Visual Hunt','千库网','iconfont','Pixabay','FreeImages'],
+		['谷歌指数','百度指数','搜狗指数','阿里指数','移动观象台','中国票房','汽车指数','物种搜索'],
+		['谷歌学术','百度学术','必应学术','OALib','PubMed','AMiner','文津搜索','CNKI学术','学术趋势','比勒费尔德学术','世界数字图书馆','Letpub','ScienceDirect','珞珈学术','麻省理工文献','上图发现','中国学术','剑桥大学知识库']
+   ];
+   //移除内容
+   $("#catlists").empty();
+   for(var i = 0 ; i < urlData[val-1].length; i++) {
+      var html = "<option value='"+urlData[val-1][i]+"' title='"+completeName[val-1][i]+"' >"+nameData[val-1][i]+"</option>";
+	   $("#catlists").append(html);
+   }
+}
+function SecondChange(obj) {
+   var url,title,inData;
+   url = obj.options[obj.selectedIndex].value;
+   title = obj.options[obj.selectedIndex].title;
+   inData = ['阿里指数','中国票房','汽车指数','物种搜索','百度图片','千库网'];
+   if(in_array(title,inData)) {
+      window.open(url);
+   }
+}
+
+function in_array(search,array){
+    for(var i in array){
+        if(array[i]==search){
+            return true;
+        }
+    }
+    return false;
+}
+
+function selecttype(obj,type) {
+   name = obj.innerHTML;
+   id_obj = document.getElementById('searchtype').innerText = name;
+   document.getElementById('sval').value = type;
+}
+
+$('#urlname').bind('keypress',function(event){
+   if(event.keyCode == "13")    
+   {
+      keyword = $("#urlname").val();
+      if(!keyword) {
+          alert('请输入要查询的关键词');
+	      $("#urlname").focus();
+	      return;
+      }
+      url = $("#catlists").val();
+      window.open(url+keyword);
+   }
+});
+$("#myButton4").click(function(){
+   keyword = $("#urlname").val();
+   if(!keyword) {
+      alert('请输入要查询的关键词');
+	  $("#urlname").focus();
+	  return;
+   }
+   url = $("#catlists").val();
+   window.open(url+keyword);
+});
+</script>
+   </body>
+</html>
+
